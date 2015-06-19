@@ -47,6 +47,6 @@ class PaywallPlan extends VisitDimension
             return 0;
         }
 
-        return Common::getRequestVar('PaywallPlan', 0, 'string', UrlHelper::getArrayFromQueryString($action->getActionUrl()));
+        return Common::getRequestVar('PaywallPlan', false, 'string', UrlHelper::getArrayFromQueryString($action->getActionUrl()));
     }
 }

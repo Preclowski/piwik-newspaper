@@ -2,6 +2,8 @@
 
 namespace Piwik\Plugins\Newspaper;
 
+use Piwik\Common;
+use Piwik\Db;
 use Piwik\Plugin\ViewDataTable;
 
 class Newspaper extends \Piwik\Plugin
