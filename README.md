@@ -2,18 +2,19 @@
 
 ## Description
 
-Add your plugin description here.
+This plugin will generate report based on paywall plans and articles.
 
 ## FAQ
 
-__My question?__
+__Is it ready to use?__
 
-My answer
+No
 
 ## Changelog
 
-Here goes the changelog text.
+End
+Start
 
 ## Support
 
-Please direct any feedback to ...
+Please direct any feedback in issues on github.

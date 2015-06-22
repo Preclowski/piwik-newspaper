@@ -1,16 +1,16 @@
 {
   "name": "Newspaper",
-  "version": "1.2.3",
-  "description": "Piwik Platform showcase: how to create widgets, menus, scheduled tasks, a custom archiver, plugin tests, and a AngularJS component.",
+  "version": "0.1.0",
+  "description": "Plugin let you store information about visitor article and paywall plan in order to analyze newspaper statistics.",
   "theme": false,
   "require": {
     "piwik": ">=2.13.1"
   },
   "authors": [
     {
-      "name": "Piwik",
-      "email": "",
-      "homepage": ""
+      "name": "Konrad Pawlikowski",
+      "email": "k.pawlikowski@piwik.pro",
+      "homepage": "http://piwik.pro"
     }
   ]
 }

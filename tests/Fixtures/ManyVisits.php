@@ -1,4 +1,10 @@
 <?php
+/**
+ * Piwik - free/libre analytics platform
+ *
+ * @link http://piwik.org
+ * @license http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
+ */
 
 namespace Piwik\Plugins\Newspaper\tests\Fixtures;
 
@@ -8,8 +14,17 @@ use Piwik\Tracker;
 
 class ManyVisits extends Fixture
 {
-    public $dateTime = '';
+    /**
+     * @var string
+     */
+    public $dateTime;
+
+    /**
+     * @var int
+     */
     protected $articleIterations = 0;
+
+    public $idSite = 1;
 
     public function setUp()
     {
@@ -37,8 +52,7 @@ class ManyVisits extends Fixture
 
         for ($i = 0; $i <= 100; $i++) {
             $tracker->setForceNewVisit(true);
-            //$tracker->setForceVisitDateTime(Date::factory($this->dateTime)->addHour(rand(0.1, 0.5))->getDatetime());
-            $tracker->setUrl('http://example.com/?PaywallPlan=' . $this->getArticleId() . '&ArticleId=' . rand(0, 50));
+            $tracker->setUrl('http://example.com/?PaywallPlan=' . $this->getArticleId() . '&ArticleId=' . $this->getArticleId());
 
             self::checkResponse($tracker->doTrackPageView('Viewing homepage'));
         }
@@ -48,10 +62,10 @@ class ManyVisits extends Fixture
     {
         $this->articleIterations++;
 
-        if ($this->articleIterations >= 30) {
-            return 2;
-        } elseif ($this->articleIterations >= 60) {
+        if ($this->articleIterations >= 60) {
             return 3;
+        } elseif ($this->articleIterations >= 30) {
+            return 2;
         } else {
             return 1;
         }
