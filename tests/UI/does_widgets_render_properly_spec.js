@@ -23,7 +23,7 @@ describe("Does widgets render properly", function () {
     it('should load a dashboard and take a full screenshot', function (done) {
         var screenshotName = 'does_article_and_paywall_widget_render_properly_on_dashboard';
         var urlToTest = '?module=Widgetize&action=iframe&idSite=1&period=year&date=2015-06-18' +
-        '&moduleToWidgetize=Newspaper&actionToWidgetize=getArticleReport';
+            '&moduleToWidgetize=Newspaper&actionToWidgetize=getArticleReport';
 
         expect.screenshot(screenshotName).to.be.capture(function (page) {
             page.load(urlToTest);

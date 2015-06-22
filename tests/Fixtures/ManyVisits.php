@@ -8,7 +8,6 @@
 
 namespace Piwik\Plugins\Newspaper\tests\Fixtures;
 
-use Piwik\Date;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tracker;
 
@@ -24,6 +23,9 @@ class ManyVisits extends Fixture
      */
     protected $articleIterations = 0;
 
+    /**
+     * @var int
+     */
     public $idSite = 1;
 
     public function setUp()
