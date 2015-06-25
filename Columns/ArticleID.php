@@ -16,7 +16,6 @@ use Piwik\Tracker\ActionPageview;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
 use Piwik\Tracker\Action;
-use Piwik\UrlHelper;
 
 class ArticleID extends ActionDimension
 {
@@ -65,7 +64,7 @@ class ArticleID extends ActionDimension
             'ArticleId',
             false,
             'integer',
-            UrlHelper::getArrayFromQueryString($action->getActionUrl())
+            $this->getArrayFromQueryString($action->getActionUrl())
         );
 
         if (false === $value) {
@@ -75,5 +74,27 @@ class ArticleID extends ActionDimension
         $value = trim($value);
 
         return substr($value, 0, 255);
+    }
+
+    /**
+     * This method is temporary fix for broken UrlHelper class method
+     *
+     * @param $url
+     *
+     * @return array
+     */
+    protected function getArrayFromQueryString($url)
+    {
+        $parsedUrl = parse_url($url);
+        $parsedParams = explode('&', $parsedUrl['query']);
+        $queryParams = [];
+
+        foreach ($parsedParams as $param) {
+            $param = explode('=', $param);
+
+            $queryParams[$param[0]] = $param[1];
+        }
+
+        return $queryParams;
     }
 }

@@ -14,8 +14,6 @@ use Piwik\Plugin\Dimension\VisitDimension;
 use Piwik\Plugin\Segment;
 use Piwik\Tracker\Request;
 use Piwik\Tracker\Visitor;
-use Piwik\Tracker\Action;
-use Piwik\UrlHelper;
 
 class PaywallPlan extends VisitDimension
 {
@@ -40,19 +38,47 @@ class PaywallPlan extends VisitDimension
     protected function configureSegments()
     {
         $segment = new Segment();
-        $segment->setSegment('achievementPoints');
         $segment->setCategory('General_Visit');
         $segment->setName('Newspaper_Paywallplan');
-        $segment->setAcceptedValues('Name of paywall plan');
+        $segment->setAcceptedValues('ID of paywall plan');
         $this->addSegment($segment);
     }
 
     public function onNewVisit(Request $request, Visitor $visitor, $action)
     {
-        if (empty($action)) {
-            return 0;
+        $queryParams = $this->getArrayFromQueryString($action->getActionUrl());
+
+        if (!ctype_digit($queryParams['PaywallPlan'])) {
+            return false;
         }
 
-        return Common::getRequestVar('PaywallPlan', false, 'string', UrlHelper::getArrayFromQueryString($action->getActionUrl()));
+        return Common::getRequestVar(
+            'PaywallPlan',
+            0,
+            'integer',
+            $queryParams
+        );
+    }
+
+    /**
+     * This method is temporary fix for broken UrlHelper class method
+     *
+     * @param $url
+     *
+     * @return array
+     */
+    protected function getArrayFromQueryString($url)
+    {
+        $parsedUrl = parse_url($url);
+        $parsedParams = explode('&', $parsedUrl['query']);
+        $queryParams = [];
+
+        foreach ($parsedParams as $param) {
+            $param = explode('=', $param);
+
+            $queryParams[$param[0]] = $param[1];
+        }
+
+        return $queryParams;
     }
 }

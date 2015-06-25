@@ -8,12 +8,11 @@ This plugin will generate report based on paywall plans and articles.
 
 __Is it ready to use?__
 
-No
+Yes
 
 ## Changelog
 
-End
-Start
+0.1.0 - first release
 
 ## Support
 

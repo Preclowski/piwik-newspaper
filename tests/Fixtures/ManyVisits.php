@@ -8,6 +8,8 @@
 
 namespace Piwik\Plugins\Newspaper\tests\Fixtures;
 
+use Piwik\Date;
+use Piwik\Plugin\Manager;
 use Piwik\Tests\Framework\Fixture;
 use Piwik\Tracker;
 
@@ -21,7 +23,7 @@ class ManyVisits extends Fixture
     /**
      * @var int
      */
-    protected $articleIterations = 0;
+    protected $articleIterations = 1;
 
     /**
      * @var int
@@ -30,19 +32,15 @@ class ManyVisits extends Fixture
 
     public function setUp()
     {
-        $date = new \DateTime();
-        $this->dateTime = $date->format('Y-m-d');
+        $this->dateTime = Date::now()->getDatetime();
         $this->setUpWebsite();
         $this->trackVisits();
-    }
-
-    public function tearDown()
-    {
+        $this->extraPluginsToLoad[] = 'Newspaper';
     }
 
     private function setUpWebsite()
     {
-        self::createWebsite($this->dateTime, $ecommerce = 0, 'Site 1');
+        self::createWebsite($this->dateTime);
     }
 
     /**
@@ -50,13 +48,14 @@ class ManyVisits extends Fixture
      */
     protected function trackVisits()
     {
-        $tracker = self::getTracker(1, $this->dateTime, $defaultInit = true, true);
+        $tracker = self::getTracker(1, $this->dateTime, true, true);
 
         for ($i = 0; $i <= 100; $i++) {
             $tracker->setForceNewVisit(true);
-            $tracker->setUrl('http://example.com/?PaywallPlan=' . $this->getArticleId() . '&ArticleId=' . $this->getArticleId());
+            $tracker->setUrl('http://piwik.net/index.php?PaywallPlan=' . $this->getPaywallPlan() . '&ArticleId=' . $this->getArticleId());
+            $pageview = $tracker->doTrackPageView('Viewing homepage ' . rand(0, 10000));
 
-            self::checkResponse($tracker->doTrackPageView('Viewing homepage'));
+            self::checkResponse($pageview);
         }
     }
 
@@ -67,6 +66,19 @@ class ManyVisits extends Fixture
         if ($this->articleIterations >= 60) {
             return 3;
         } elseif ($this->articleIterations >= 30) {
+            return 2;
+        } else {
+            return 1;
+        }
+    }
+
+    protected function getPaywallPlan()
+    {
+        $this->articleIterations++;
+
+        if ($this->articleIterations % 3 === 0) {
+            return 3;
+        } elseif ($this->articleIterations % 2 === 0) {
             return 2;
         } else {
             return 1;

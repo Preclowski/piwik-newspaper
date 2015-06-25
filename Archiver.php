@@ -34,9 +34,9 @@ class Archiver extends \Piwik\Plugin\Archiver
     public function aggregateMultipleReports()
     {
         foreach (array(
-                     self::NEWSPAPER_ARCHIVE_ARTICLE_RECORD,
-                     self::NEWSPAPER_ARCHIVE_PAYWALL_RECORD
-                 ) as $archive) {
+             self::NEWSPAPER_ARCHIVE_ARTICLE_RECORD,
+             self::NEWSPAPER_ARCHIVE_PAYWALL_RECORD
+         ) as $archive) {
             $this->getProcessor()->aggregateDataTableRecords($archive);
         }
     }
@@ -50,11 +50,11 @@ class Archiver extends \Piwik\Plugin\Archiver
     private function aggregateArticles(LogAggregator $logAggregator, ArchiveProcessor $archiveProcessor)
     {
         $query = $logAggregator->queryActionsByDimension(
-            array('log_link_visit_action.article_id'),
-            'log_link_visit_action.article_id IS NOT NULL'
+            array('log_link_visit_action.article_id')
         );
 
         $dt = new DataTable;
+
         foreach ($query->fetchAll() as $id => $row) {
             $dt->addRowFromSimpleArray(array(
                 'label' => Piwik::translate('Article') . ' ' . $id,
@@ -77,8 +77,7 @@ class Archiver extends \Piwik\Plugin\Archiver
     private function aggregatePaywalls(LogAggregator $logAggregator, ArchiveProcessor $archiveProcessor)
     {
         $query = $logAggregator->queryVisitsByDimension(
-            array('log_visit.paywall_plan'),
-            'log_visit.paywall_plan IS NOT NULL'
+            array('log_visit.paywall_plan')
         );
 
         $dt = new DataTable;
